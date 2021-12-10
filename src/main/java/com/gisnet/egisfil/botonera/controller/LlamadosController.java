@@ -27,6 +27,7 @@ public class LlamadosController {
         long actualTime = System.currentTimeMillis();
         lista.sort((t1,t2)->t1.getHora_llegada().compareTo(t2.getHora_llegada()));
         System.out.println(lista);
+
         return "";
         
         
