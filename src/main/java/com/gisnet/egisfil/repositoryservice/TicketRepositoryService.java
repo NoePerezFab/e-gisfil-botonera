@@ -1,8 +1,8 @@
 
-package com.gisnet.egisfil.botonera.repositoryservice;
+package com.gisnet.egisfil.repositoryservice;
 
-import com.gisnet.egisfil.botonera.domain.Ticket;
-import com.gisnet.egisfil.botonera.repository.TicketRepository;
+import com.gisnet.egisfil.domain.Ticket;
+import com.gisnet.egisfil.repository.TicketRepository;
 import com.gisnet.egisfil.botonera.service.TicketService;
 import java.util.ArrayList;
 import java.util.Iterator;

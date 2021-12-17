@@ -1,5 +1,5 @@
 
-package com.gisnet.egisfil.botonera.domain;
+package com.gisnet.egisfil.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;

@@ -1,7 +1,7 @@
 
-package com.gisnet.egisfil.botonera.repository;
+package com.gisnet.egisfil.repository;
 
-import com.gisnet.egisfil.botonera.domain.Cliente;
+import com.gisnet.egisfil.domain.Cliente;
 import org.springframework.data.couchbase.repository.CouchbaseRepository;
 import org.springframework.stereotype.Repository;
 

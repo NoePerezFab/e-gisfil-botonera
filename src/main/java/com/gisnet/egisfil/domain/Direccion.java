@@ -1,5 +1,5 @@
 
-package com.gisnet.egisfil.botonera.domain;
+package com.gisnet.egisfil.domain;
 
 import java.io.Serializable;
 import org.springframework.data.annotation.Id;

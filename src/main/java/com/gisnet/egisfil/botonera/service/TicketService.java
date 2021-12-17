@@ -2,7 +2,7 @@
 package com.gisnet.egisfil.botonera.service;
 
 
-import com.gisnet.egisfil.botonera.domain.Ticket;
+import com.gisnet.egisfil.domain.Ticket;
 import java.util.List;
 import java.util.Optional;
 

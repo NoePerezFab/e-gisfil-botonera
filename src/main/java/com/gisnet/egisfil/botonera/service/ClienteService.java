@@ -2,7 +2,7 @@
 package com.gisnet.egisfil.botonera.service;
 
 
-import com.gisnet.egisfil.botonera.domain.Cliente;
+import com.gisnet.egisfil.domain.Cliente;
 import java.util.List;
 import java.util.Optional;
 

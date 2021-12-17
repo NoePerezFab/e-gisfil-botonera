@@ -1,14 +1,13 @@
 
-package com.gisnet.egisfil.botonera.domain;
+package com.gisnet.egisfil.domain;
 
 import java.io.Serializable;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;
-
 import org.springframework.data.couchbase.core.mapping.Field;
 
 @Document
-public class Estado implements Serializable{
+public class Colonia implements Serializable{
     
     @Id
     private String id;

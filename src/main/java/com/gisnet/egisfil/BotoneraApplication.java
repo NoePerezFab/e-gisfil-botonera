@@ -1,4 +1,4 @@
-package com.gisnet.egisfil.botonera;
+package com.gisnet.egisfil;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

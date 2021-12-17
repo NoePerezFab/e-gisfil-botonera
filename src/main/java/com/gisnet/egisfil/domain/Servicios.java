@@ -1,5 +1,5 @@
 
-package com.gisnet.egisfil.botonera.domain;
+package com.gisnet.egisfil.domain;
 
 import java.io.Serializable;
 import org.springframework.data.annotation.Id;
@@ -7,8 +7,7 @@ import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.Field;
 
 @Document
-public class Colonia implements Serializable{
-    
+public class Servicios implements Serializable{
     @Id
     private String id;
     
@@ -19,7 +18,10 @@ public class Colonia implements Serializable{
     private String nombre;
     
     @Field
-    private String nombre_corto;
+    private int prioridad;
+    
+    @Field
+    private String tipo_servicio;
 
     public String getId() {
         return id;
@@ -33,8 +35,12 @@ public class Colonia implements Serializable{
         return nombre;
     }
 
-    public String getNombre_corto() {
-        return nombre_corto;
+    public int getPrioridad() {
+        return prioridad;
+    }
+
+    public String getTipo_servicio() {
+        return tipo_servicio;
     }
 
     public void setId(String id) {
@@ -49,9 +55,14 @@ public class Colonia implements Serializable{
         this.nombre = nombre;
     }
 
-    public void setNombre_corto(String nombre_corto) {
-        this.nombre_corto = nombre_corto;
+    public void setPrioridad(int prioridad) {
+        this.prioridad = prioridad;
     }
+
+    public void setTipo_servicio(String tipo_servicio) {
+        this.tipo_servicio = tipo_servicio;
+    }
+    
     
     
     

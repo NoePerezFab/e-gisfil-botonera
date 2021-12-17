@@ -1,10 +1,10 @@
 
-package com.gisnet.egisfil.botonera.controller;
+package com.gisnet.egisfil.controller;
 
 import com.couchbase.client.core.deps.com.fasterxml.jackson.core.JsonProcessingException;
 import com.couchbase.client.core.deps.com.fasterxml.jackson.databind.ObjectMapper;
-import com.gisnet.egisfil.botonera.domain.Ticket;
-import com.gisnet.egisfil.botonera.repositoryservice.TicketRepositoryService;
+import com.gisnet.egisfil.domain.Ticket;
+import com.gisnet.egisfil.repositoryservice.TicketRepositoryService;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

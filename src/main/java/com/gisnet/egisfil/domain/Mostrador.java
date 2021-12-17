@@ -1,30 +1,25 @@
 
-package com.gisnet.egisfil.botonera.domain;
+package com.gisnet.egisfil.domain;
 
-import java.util.Date;
+import java.io.Serializable;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.Field;
 
 @Document
-public class Cliente {
+public class Mostrador implements Serializable{
+    
     @Id
     private String id;
     
     @Field
     private String clave;
     
-    @Field 
-    private String numero_cliente;
-    
     @Field
     private String nombre;
     
     @Field
-    private String apellidos;
-    
-    @Field
-    private Date fecha_nacimiento;
+    private String tipo_servicio;
     
     @Field
     private boolean activo;
@@ -37,20 +32,12 @@ public class Cliente {
         return clave;
     }
 
-    public String getNumero_cliente() {
-        return numero_cliente;
-    }
-
     public String getNombre() {
         return nombre;
     }
 
-    public String getApellidos() {
-        return apellidos;
-    }
-
-    public Date getFecha_nacimiento() {
-        return fecha_nacimiento;
+    public String getTipo_servicio() {
+        return tipo_servicio;
     }
 
     public boolean isActivo() {
@@ -65,26 +52,17 @@ public class Cliente {
         this.clave = clave;
     }
 
-    public void setNumero_cliente(String numero_cliente) {
-        this.numero_cliente = numero_cliente;
-    }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
-
-    public void setFecha_nacimiento(Date fecha_nacimiento) {
-        this.fecha_nacimiento = fecha_nacimiento;
+    public void setTipo_servicio(String tipo_servicio) {
+        this.tipo_servicio = tipo_servicio;
     }
 
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
-    
     
     
 }

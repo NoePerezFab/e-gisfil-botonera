@@ -1,5 +1,5 @@
 
-package com.gisnet.egisfil.botonera.config;
+package com.gisnet.egisfil.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.couchbase.config.AbstractCouchbaseConfiguration;
