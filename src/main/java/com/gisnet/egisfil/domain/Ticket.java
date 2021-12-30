@@ -14,7 +14,7 @@ public class Ticket {
     private Long hora_llegada;
     
     @Field
-    private Long tiempo_espera;
+    private String tiempo_espera;
     
     @Field
     private String type;
@@ -23,7 +23,45 @@ public class Ticket {
     private Cliente cliente;
     
     @Field
+    private String turno;
+    
+    @Field
     private Servicios servicio;
+    
+    @Field
+    private String tipo_servicio;
+    
+    @Field
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+    
+    
+
+    public String getTipo_servicio() {
+        return tipo_servicio;
+    }
+
+    public void setTipo_servicio(String tipo_servicio) {
+        this.tipo_servicio = tipo_servicio;
+    }
+    
+    
+
+    public String getTurno() {
+        return turno;
+    }
+
+    public void setTurno(String turno) {
+        this.turno = turno;
+    }
+    
 
     public Servicios getServicio() {
         return servicio;
@@ -43,7 +81,7 @@ public class Ticket {
         return hora_llegada;
     }
 
-    public Long getTiempo_espera() {
+    public String getTiempo_espera() {
         return tiempo_espera;
     }
 
@@ -63,7 +101,7 @@ public class Ticket {
         this.hora_llegada = hora_llegada;
     }
 
-    public void setTiempo_espera(Long tiempo_espera) {
+    public void setTiempo_espera(String tiempo_espera) {
         this.tiempo_espera = tiempo_espera;
     }
 
