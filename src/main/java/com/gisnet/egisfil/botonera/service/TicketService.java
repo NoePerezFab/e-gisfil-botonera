@@ -12,4 +12,6 @@ public interface TicketService {
     List<Ticket> findAll();
     Ticket create(Ticket ticket);
     Ticket update(Ticket ticket);
+    List<Ticket> findByTipo_Servicio(String tipo_servicio,String id_sucursal);
+    void delete(Ticket ticket);
 }

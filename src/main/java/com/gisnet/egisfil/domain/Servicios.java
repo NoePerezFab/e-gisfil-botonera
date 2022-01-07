@@ -22,6 +22,30 @@ public class Servicios implements Serializable{
     
     @Field
     private String tipo_servicio;
+    
+      @Field
+    private boolean servicio_cliente;
+      
+      @Field
+      private int ponderacion;
+
+    public int getPonderacion() {
+        return ponderacion;
+    }
+
+    public void setPonderacion(int ponderacion) {
+        this.ponderacion = ponderacion;
+    }
+      
+      
+
+    public boolean isServicio_cliente() {
+        return servicio_cliente;
+    }
+
+    public void setServicio_cliente(boolean servicio_cliente) {
+        this.servicio_cliente = servicio_cliente;
+    }
 
     public String getId() {
         return id;

@@ -4,7 +4,10 @@ package com.gisnet.egisfil.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.Field;
-
+import org.springframework.data.couchbase.repository.Collection;
+import org.springframework.data.couchbase.repository.Scope;
+@Scope("tickets")
+@Collection("tickets")
 @Document
 public class Ticket {
     @Id
@@ -33,6 +36,32 @@ public class Ticket {
     
     @Field
     private int status;
+    
+    @Field
+    private long hora_inicio;
+    
+    @Field
+    private String id_sucursal;
+    
+   
+
+    public String getId_sucursal() {
+        return id_sucursal;
+    }
+
+    public void setId_sucursal(String id_sucursal) {
+        this.id_sucursal = id_sucursal;
+    }
+    
+    
+
+    public long getHora_inicio() {
+        return hora_inicio;
+    }
+
+    public void setHora_inicio(long hora_inicio) {
+        this.hora_inicio = hora_inicio;
+    }
 
     public int getStatus() {
         return status;
