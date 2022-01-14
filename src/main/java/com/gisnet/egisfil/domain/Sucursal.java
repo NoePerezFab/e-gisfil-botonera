@@ -30,6 +30,30 @@ public class Sucursal implements Serializable{
     
     @Field
     private List<Mostrador> mostradores;
+    
+    @Field
+    private String type;
+    
+    @Field
+    private List<Servicios> servicios;
+
+    public List<Servicios> getServicios() {
+        return servicios;
+    }
+
+    public void setServicios(List<Servicios> servicios) {
+        this.servicios = servicios;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    
 
     public String getId() {
         return id;
