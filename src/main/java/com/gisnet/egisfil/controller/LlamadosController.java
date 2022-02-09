@@ -3,22 +3,35 @@ package com.gisnet.egisfil.controller;
 
 import com.couchbase.client.core.deps.com.fasterxml.jackson.core.JsonProcessingException;
 import com.couchbase.client.core.deps.com.fasterxml.jackson.databind.ObjectMapper;
+import com.gisnet.egisfil.domain.Mostrador;
+import com.gisnet.egisfil.domain.Sucursal;
 import com.gisnet.egisfil.domain.Ticket;
 import com.gisnet.egisfil.domain.TurnoAtendido;
+import com.gisnet.egisfil.repositoryservice.SucursalRepositoryService;
 import com.gisnet.egisfil.repositoryservice.TicketRepositoryService;
 import com.gisnet.egisfil.repositoryservice.TurnoAtendidoRepositoryService;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class LlamadosController {
+    @Autowired
+    SucursalRepositoryService repoSuc;
+    
     @Autowired
     TicketRepositoryService repo;
     
@@ -28,17 +41,46 @@ public class LlamadosController {
     private ObjectMapper maper = new ObjectMapper();
     
     @GetMapping("/api/llamado")
-    public String siguienteTurno(@RequestParam String tipo_servicio,@RequestParam String id_sucursal) throws JsonProcessingException{
+    public String siguienteTurno(@RequestParam String tipo_servicio,@RequestParam String id_sucursal, @RequestParam String clave,HttpServletRequest req) throws JsonProcessingException{
         List<Ticket> lista = repo.findByTipo_Servicio(tipo_servicio,id_sucursal);
         if(lista.isEmpty()){
             return maper.writeValueAsString(lista);
         }
+        if(repoSuc.findOne(id_sucursal).isEmpty()){
+            return "Error en la sucursal seleccionada";
+        }
+        Sucursal suc = repoSuc.findOne(id_sucursal).get();
+        List<Mostrador> mostradores = suc.getMostradores();
+        Mostrador mostrador = null;
+        for(Mostrador m : mostradores){
+            if(m.getClave().compareTo(clave) == 0){
+                mostrador = m;
+            }
+        }
+        if(mostrador == null){
+            return "Error en el mostrador seleccionado";
+        }
+        
+        
         lista.sort((t1,t2)->t1.getHora_llegada().compareTo(t2.getHora_llegada()));
         Ticket actual = lista.get(0);
         String espera = calcularTiempoEspera(actual.getHora_llegada());
         actual.setTiempo_espera(espera);
         actual.setStatus(2);
         actual.setHora_inicio(System.currentTimeMillis());
+        
+        
+        
+        
+        actual.setMostrador(mostrador);
+        RestTemplate restT = new RestTemplate();
+        HttpHeaders h = new HttpHeaders();
+        h.setContentType(MediaType.APPLICATION_JSON);
+        
+        
+        String url = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+"/displayback/api/call";
+        HttpEntity<String> entity = new HttpEntity<>(maper.writeValueAsString(actual),h);
+        ResponseEntity<?> result = restT.exchange(url,HttpMethod.POST,entity,String.class);
         repo.update(actual);
         return maper.writeValueAsString(actual);   
     }

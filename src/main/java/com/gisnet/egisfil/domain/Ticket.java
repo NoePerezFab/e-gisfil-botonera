@@ -32,7 +32,7 @@ public class Ticket {
     private Servicios servicio;
     
     @Field
-    private String tipo_servicio;
+    private String tipo_Servicio;
     
     @Field
     private int status;
@@ -43,7 +43,16 @@ public class Ticket {
     @Field
     private String id_sucursal;
     
-   
+    @Field
+    private Mostrador mostrador;
+    
+    public Mostrador getMostrador(){
+        return mostrador;
+    }
+    
+    public void setMostrador(Mostrador mostrador){
+        this.mostrador = mostrador;
+    }
 
     public String getId_sucursal() {
         return id_sucursal;
@@ -74,11 +83,11 @@ public class Ticket {
     
 
     public String getTipo_servicio() {
-        return tipo_servicio;
+        return tipo_Servicio;
     }
 
     public void setTipo_servicio(String tipo_servicio) {
-        this.tipo_servicio = tipo_servicio;
+        this.tipo_Servicio = tipo_servicio;
     }
     
     
