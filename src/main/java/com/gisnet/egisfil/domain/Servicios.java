@@ -5,7 +5,11 @@ import java.io.Serializable;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.Field;
+import org.springframework.data.couchbase.repository.Collection;
+import org.springframework.data.couchbase.repository.Scope;
 
+@Scope("configuracion")
+@Collection("servicios")
 @Document
 public class Servicios implements Serializable{
     @Id
@@ -23,21 +27,35 @@ public class Servicios implements Serializable{
     @Field
     private String tipo_servicio;
     
-      @Field
+    @Field
     private boolean servicio_cliente;
-      
-      @Field
-      private int ponderacion;
+    
+    @Field
+    private int ponderacion;
+    
+    @Field
+    private int tiempo_maximo_espera;
+    
+    @Field
+    private String type;
 
     public int getPonderacion() {
         return ponderacion;
     }
 
+    public int getTiempo_maximo_espera() {
+        return tiempo_maximo_espera;
+    }
+
     public void setPonderacion(int ponderacion) {
         this.ponderacion = ponderacion;
     }
-      
-      
+
+    public void setTiempo_maximo_espera(int tiempo_maximo_espera) {
+        this.tiempo_maximo_espera = tiempo_maximo_espera;
+    }
+    
+    
 
     public boolean isServicio_cliente() {
         return servicio_cliente;
@@ -46,6 +64,18 @@ public class Servicios implements Serializable{
     public void setServicio_cliente(boolean servicio_cliente) {
         this.servicio_cliente = servicio_cliente;
     }
+    
+    
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    
 
     public String getId() {
         return id;
@@ -87,7 +117,7 @@ public class Servicios implements Serializable{
         this.tipo_servicio = tipo_servicio;
     }
     
-    
+   
     
     
 }

@@ -86,17 +86,50 @@ public class LlamadosController {
     }
     
     @GetMapping("/api/llamadoprioridad")
-    public String porPrioridad(@RequestParam String tipo_servicio,@RequestParam String id_sucursal) throws JsonProcessingException{
+    public String porPrioridad(@RequestParam String tipo_servicio,@RequestParam String id_sucursal,@RequestParam String clave,HttpServletRequest req) throws JsonProcessingException{
         List<Ticket> lista = repo.findByTipo_Servicio(tipo_servicio,id_sucursal);
         if(lista.isEmpty()){
             return maper.writeValueAsString(lista);
         }
+        if(repoSuc.findOne(id_sucursal).isEmpty()){
+            return "Error en la sucursal seleccionada";
+        }
+        Sucursal suc = repoSuc.findOne(id_sucursal).get();
+        List<Mostrador> mostradores = suc.getMostradores();
+        Mostrador mostrador = null;
+        for(Mostrador m : mostradores){
+            if(m.getClave().compareTo(clave) == 0){
+                mostrador = m;
+            }
+        }
+        if(mostrador == null){
+            return "Error en el mostrador seleccionado";
+        }
         lista.sort((t1,t2)-> Integer.compare(t1.getServicio().getPrioridad(), t2.getServicio().getPrioridad()));
-        Ticket actual = lista.get(0);
-        String espera = calcularTiempoEspera(actual.getHora_llegada());
-        actual.setTiempo_espera(espera);
+        Ticket actual = lista.get(0);;
+        for(Ticket t : lista){
+            String espera = calcularTiempoEspera(t.getHora_llegada());
+            t.setTiempo_espera(espera);
+            long esperaMilis = System.currentTimeMillis() - t.getHora_llegada();
+            int minutes = (int) ((esperaMilis / (1000*60)) % 60);
+            if(minutes >= t.getServicio().getTiempo_maximo_espera()){
+                actual = t;
+                break;
+            }
+        }  
         actual.setStatus(2);
         actual.setHora_inicio(System.currentTimeMillis());
+        actual.setMostrador(mostrador);
+        repo.update(actual);
+        
+        RestTemplate restT = new RestTemplate();
+        HttpHeaders h = new HttpHeaders();
+        h.setContentType(MediaType.APPLICATION_JSON);
+        
+        
+        String url = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+"/displayback/api/call";
+        HttpEntity<String> entity = new HttpEntity<>(maper.writeValueAsString(actual),h);
+        ResponseEntity<?> result = restT.exchange(url,HttpMethod.POST,entity,String.class);
         repo.update(actual);
         return maper.writeValueAsString(actual);   
     }
