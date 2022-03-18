@@ -43,6 +43,19 @@ public class TurnoAtendido implements Serializable{
     @Field
     private long hora_inicio;
     
+    @Field
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+    
+    
+    
 
     public long getHora_inicio() {
         return hora_inicio;

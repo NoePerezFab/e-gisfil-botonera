@@ -149,13 +149,65 @@ public class LlamadosController {
         if(repo.findOne(ticket.getId()).isEmpty()){
             return "Error el trno no existe";
         }
-        TurnoAtendido turno = finalizarTurno(repo.findOne(ticket.getId()).get());
+        TurnoAtendido turno = finalizarTurno(repo.findOne(ticket.getId()).get(),4);
         repo.delete(ticket);
         return maper.writeValueAsString(repoTurno.create(turno));
     }
     
+    @PostMapping("/api/abandonoturno")
+    public String abandonoTurno(@RequestBody Ticket ticket) throws JsonProcessingException{
+        if(repo.findOne(ticket.getId()).isEmpty()){
+            return "Error el trno no existe";
+        }
+        TurnoAtendido turno = finalizarTurno(repo.findOne(ticket.getId()).get(),3);
+        repo.delete(ticket);
+        return maper.writeValueAsString(repoTurno.create(turno));
+    }
+    @PostMapping("/api/ponerturnoenespera")
+    public String ponerTurnoEspera(@RequestBody Ticket ticket) throws JsonProcessingException{
+        if(repo.findOne(ticket.getId()).isEmpty()){
+            return "Error el trno no existe";
+        }
+        ticket = repo.findOne(ticket.getId()).get();
+        ticket.setStatus(2);
+        return maper.writeValueAsString(repo.update(ticket));
+        
+    }
     
-    public TurnoAtendido finalizarTurno(Ticket ticket){
+    @GetMapping("/api/llamadoturno")
+    public String LllamadoATurno(@RequestParam String tipo_servicio,@RequestParam String id_sucursal,@RequestParam String clave,@RequestParam String turno,HttpServletRequest req) throws JsonProcessingException{
+        if(repoSuc.findOne(id_sucursal).isEmpty()){
+            return "Error en la sucursal seleccionada";
+        } 
+        List<Ticket> lista = repo.findByTipo_Servicio_en_espera(tipo_servicio,id_sucursal);
+        if(lista.isEmpty()){
+            return maper.writeValueAsString(lista);
+        }
+        Sucursal suc = repoSuc.findOne(id_sucursal).get();
+        List<Mostrador> mostradores = suc.getMostradores();
+        Mostrador mostrador = null;
+        for(Mostrador m : mostradores){
+            if(m.getClave().compareTo(clave) == 0){
+                mostrador = m;
+            }
+        }
+        if(mostrador == null){
+            return "Error en el mostrador seleccionado";
+        }
+        Ticket ticket = null;
+        for(Ticket t : lista){
+            if(t.getTurno().compareTo(turno) == 0){
+                ticket = t;
+                break;
+            }
+        }
+        if(ticket == null){
+            return "No se esncontro el turno";
+        }
+        return maper.writeValueAsString(ticket);
+    }
+    
+    public TurnoAtendido finalizarTurno(Ticket ticket,int status){
         
         TurnoAtendido turno = new TurnoAtendido();
         turno.setId(ticket.getId());
@@ -167,6 +219,7 @@ public class LlamadosController {
         turno.setTiempo_atencion(calcularTiempoEspera(ticket.getHora_inicio()));
         turno.setId_sucursal(ticket.getId_sucursal());
         turno.setTurno(ticket.getTurno());
+        turno.setStatus(status);
         return turno;
     }
     
